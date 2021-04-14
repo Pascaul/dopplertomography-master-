@@ -3,5 +3,7 @@ doppler tomography code
 
 
 Example:
->  python deconvolve_merge.py KC04C020627_2012-01-31_07h57m01s_cb.spec.fits  --mode lineal --deconv wav --vel 0.0  --rango 200 --linstep 60 --template ap00t6500g40k0odfnew_hatkelt_0.005.out --skip 0 --instrument tres
+>  python deconvolution.py  --mode lineal --deconv vel  --rango 200 --linstep 120  --template ap00t6750g40k0odfnew_sample0.005.out --instrument feros --skip 0 --velslim 100 --velstep 200 --combined 2 --spectype F --ncpu 6
+
+
 
