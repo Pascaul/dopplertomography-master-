@@ -2842,12 +2842,8 @@ for i in np.arange(10):
 '''
 
 specs = list_files(folder)
-
-#ORDENA LAS FECHAS
-#specs = list(filter(lambda x: ".fits" in x and os.path.isfile(x), os.listdir(folder)))
-#print 'ORDEN', specs.sort(key=lambda spectra: spectra[0], reverse=True)
-
 specs = sort_files_ceres(specs)
+
 print specs
 
 #for spec in specs:
@@ -2857,13 +2853,14 @@ print specs
 #raise
 
 if combined != None:
+
 	names_deconv = []
 	if int(combined) == 1:
-		base = folder+'deconvolution_folder/'
+		base = folder+'results_deconvolution/'
 		if not os.path.exists(base):
 			os.makedirs(base)
 	else:
-		base = folder+'deconvolution_combined'+str(combined)+'_folder/'
+		base = folder+'results_deconvolution_combined'+str(combined)+'/'
 		if not os.path.exists(base):
 			os.makedirs(base)
 
@@ -2873,11 +2870,12 @@ if combined != None:
 		names_deconv = []
 		wavs = []
 		fluxs = []
+		name_info = '_rango'+ str(rango)+ '_linstep'+str(linstep) + '_velslim' + str(velslim)+'_velstep' + str(velstep)+'_deconv.dat'
+
 		for j in np.arange(int(combined)):
 
 			spec = specs[i*int(combined)+j]
 			
-			name_info = '_rango'+ str(rango)+ '_linstep'+str(linstep) + '_velslim' + str(velslim)+'_velstep' + str(velstep)+'_deconv.dat'
 			if spec.split('_sp.')[-1] == 'fits':
 				name_deconv = spec.split('_sp.fits')[0]
 			else:
@@ -2904,6 +2902,7 @@ if combined != None:
 
 			#@@@@@ DESDE ACA @@@
 
+			## Leer espectro
 			spec = folder + spec
 
 			if instrument == 'ceres' or 'feros':
@@ -2984,27 +2983,6 @@ if combined != None:
 		if int(combined) == 1:
 			fluxmean = fluxs[0]
 		else:
-			#print 'min', np.min(wavs[0]), np.min(wavs[1])
-			#print 'max', np.max(wavs[0]), np.max(wavs[1])
-			#print 'len', len(wavs[0]), len(wavs[1])
-			#print 'len', len(fluxs[0]), len(fluxs[1])
-
-			'''			for h in np.arange(len(fluxs)):
-				#wavs[h] = list(set(wavs[h]))
-				#fluxs[h] = list(set(fluxs[h]))
-				print len(fluxs)
-				print len(fluxs[1])
-
-				for r in np.arange(len(fluxs[1])):
-					print wavs[1][r], wavs[0][r]
-					if (wavs[1][r]-wavs[0][r]) > 0.0000001:
-						print 'error', r, wavs[1][r], wavs[0][r]  																
-						raise
-				#plt.plot(wavs[h],f'''
-			#plt.show()
-			#print 'max', len(wavs[0]), len(wavs[1])
-			#print 'len', len(fluxs[0]),len(fluxs[1])
-
 			fluxmean = np.mean(fluxs, axis=0)
 
 		#plt.plot(wav, fluxmean)
